@@ -18,6 +18,16 @@ PadrinoBlog::App.controllers :posts do
   # get '/example' do
   #   'Hello world!'
   # end
+  post :create do
+    @posts = Post.new(params[:post])
+    @post.accout = current_account
+    if @post.save
+      flash[:notice] = 'Congratulations. Create a pice of blog successed'
+      redirect url(:posts, :edit, :id => @post.id)
+    else
+      render 'posts/new'
+    end
+  end
   
   get :index do
       @posts = Post.all(:order =>'created_at desc')
